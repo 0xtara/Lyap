@@ -1,0 +1,19 @@
+import numpy as np
+
+def solve_lyapunov_equation(A, Q):
+    n = A.shape[0]
+    A_transpose = np.transpose(A)
+    # Construct the matrix equation
+    A_stack = np.vstack((np.hstack((A, -Q)), np.hstack((-np.eye(n), -A_transpose))))
+    # Solve the matrix equation
+    X_stack = np.linalg.solve(A_stack, np.zeros((2 * n, n)))
+    # Extract the solution
+    X_solution = X_stack[:n, :]
+    return X_solution
+
+# Example usage:
+A = np.array([[1, 2], [3, 4]])  # Example matrix A
+Q = np.array([[5, 6], [7, 8]])  # Example matrix Q
+X_solution = solve_lyapunov_equation(A, Q)
+print("Solution X:")
+print(X_solution)
